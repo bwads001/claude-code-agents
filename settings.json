@@ -1,0 +1,47 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/bwadsworth/.claude/hooks/agent-context-injection.py",
+            "timeout": 15000
+          },
+          {
+            "type": "command",
+            "command": "/home/bwadsworth/.claude/hooks/agent-performance-monitor.py",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/bwadsworth/.claude/hooks/agent-result-validator.py",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/bwadsworth/.claude/hooks/file-content-validator.py",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}
